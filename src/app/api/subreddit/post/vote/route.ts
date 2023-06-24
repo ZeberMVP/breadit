@@ -2,7 +2,7 @@ import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { redis } from '@/lib/redis'
 import { PostVoteValidator } from '@/lib/validators/vote'
-import { CachePost } from '@/types/redis'
+import { CachedPost } from '@/types/redis'
 import { z } from 'zod'
 
 const CACHE_AFTER_UPVOTES = 1
@@ -72,7 +72,7 @@ export async function PATCH(req: Request) {
 			}, 0)
 
 			if (votesAmt >= CACHE_AFTER_UPVOTES) {
-				const cachePayload: CachePost = {
+				const cachePayload: CachedPost = {
 					authorUsername: post.author.username ?? '',
 					content: JSON.stringify(post.content),
 					id: post.id,
@@ -101,7 +101,7 @@ export async function PATCH(req: Request) {
 		}, 0)
 
 		if (votesAmt >= CACHE_AFTER_UPVOTES) {
-			const cachePayload: CachePost = {
+			const cachePayload: CachedPost = {
 				authorUsername: post.author.username ?? '',
 				content: JSON.stringify(post.content),
 				id: post.id,
